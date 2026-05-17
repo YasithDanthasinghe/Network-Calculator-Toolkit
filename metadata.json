@@ -1,0 +1,6 @@
+{
+  "name": "Network Calculator Toolkit",
+  "description": "Professional-grade networking tools including IP Subnet, VLSM, CIDR calculators, Binary/Hex converter, Port reference, and Topology viewer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
