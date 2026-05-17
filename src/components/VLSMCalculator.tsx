@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { calculateVLSM, VLSMSingleSubnet } from '../lib/networking';
 import { Plus, Trash2, Download, Table, BarChart3, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import AdBanner from './AdBanner';
 
 export default function VLSMCalculator() {
   const [baseIp, setBaseIp] = useState('192.168.1.0');
@@ -47,11 +48,15 @@ export default function VLSMCalculator() {
 
   return (
     <div className="space-y-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">VLSM Calculator</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Design variable-length subnet mask hierarchies for efficient IP allocation.</p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Input Panel */}
         <div className="lg:col-span-1 space-y-6">
           <div className="tool-card p-6">
-            <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+            <h3 className="text-lg font-semibold mb-6 flex items-center gap-2 text-slate-900 dark:text-white">
               <Table className="w-5 h-5 text-network-teal" />
               Network Config
             </h3>
@@ -156,7 +161,7 @@ export default function VLSMCalculator() {
           ) : (
             <div className="space-y-4">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-semibold">Subnet Allocation Table</h3>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Subnet Allocation Table</h3>
                 <button
                   onClick={exportCSV}
                   className="flex items-center gap-2 text-sm font-medium text-network-teal hover:underline"
@@ -178,8 +183,8 @@ export default function VLSMCalculator() {
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-white/5">
                     {results.map((r, i) => (
-                      <tr key={i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                        <td className="px-4 py-4 font-bold">{r.name}</td>
+                        <tr key={i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                          <td className="px-4 py-4 font-bold text-slate-900 dark:text-white">{r.name}</td>
                         <td className="px-4 py-4 text-sm">
                           <span className="font-mono">{r.neededHosts}</span>
                           <span className="text-slate-400 mx-1">/</span>
@@ -198,6 +203,54 @@ export default function VLSMCalculator() {
           )}
         </div>
       </div>
+
+      <div className="mt-12 space-y-12 border-t border-slate-200 dark:border-white/5 pt-12">
+        <section className="max-w-none">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">What is a VLSM Calculator?</h2>
+          <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
+            A <strong className="text-network-teal">VLSM (Variable Length Subnet Masking) Calculator</strong> is a tool used to 
+            allocate IP addresses efficiently by creating subnets of different sizes from a single network block. Unlike standard 
+            subnetting, which uses a fixed mask for all subnets, VLSM allows you to match the subnet size to the specific 
+            needs of each LAN, minimizing address wastage.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="tool-card p-6 border-slate-200 dark:border-white/5">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <Table className="w-4 h-4 text-network-teal" />
+                The Benefits of VLSM
+              </h3>
+              <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                <li className="flex gap-2">
+                  <span className="text-network-teal font-bold">•</span>
+                  <span><strong>Waste Reduction:</strong> Prevent large blocks of IPs from being assigned to small networks.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-network-teal font-bold">•</span>
+                  <span><strong>Hierarchy:</strong> Create logical structures for better routing table summarization.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-network-teal font-bold">•</span>
+                  <span><strong>Scalability:</strong> Reserve addresses for future growth within specific segment groups.</span>
+                </li>
+              </ul>
+            </div>
+            <div className="tool-card p-6 border-slate-200 dark:border-white/5">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-network-amber" />
+                Pro Tip for Engineers
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Always sort your subnet requirements from <strong>largest to smallest</strong> before calculating. This ensures 
+                the largest blocks get continuous memory segments and prevents overlap issues. Our calculator handles 
+                this sorting automatically for your convenience.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <AdBanner slot="5479335221" />
     </div>
   );
 }

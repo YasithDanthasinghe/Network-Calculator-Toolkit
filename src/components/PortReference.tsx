@@ -32,7 +32,13 @@ export default function PortReference() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Network Port Reference</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Database of common TCP/UDP ports, well-known services, and protocols.</p>
+      </div>
+
+      <div className="space-y-6">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -134,5 +140,6 @@ export default function PortReference() {
         )}
       </div>
     </div>
-  );
+  </div>
+);
 }

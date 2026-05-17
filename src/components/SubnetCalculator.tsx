@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { calculateSubnet, SubnetInfo } from '../lib/networking';
 import { Copy, Check, Info, Binary, Zap } from 'lucide-react';
 
+import AdBanner from './AdBanner';
+
 export default function SubnetCalculator() {
   const [ip, setIp] = useState('192.168.1.1');
   const [prefix, setPrefix] = useState(24);
@@ -29,11 +31,17 @@ export default function SubnetCalculator() {
   const prefixes = Array.from({ length: 33 }, (_, i) => i);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="space-y-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">IP Subnet Calculator</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Calculate IPv4 address ranges, masks, and network boundaries.</p>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Inputs Column */}
       <div className="lg:col-span-1 space-y-6">
         <div className="tool-card p-6">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
             <Zap className="w-5 h-5 text-network-teal" />
             Parameters
           </h3>
@@ -137,7 +145,7 @@ export default function SubnetCalculator() {
         </div>
 
         {results && (
-          <div className="tool-card p-6 bg-[#1A1D2E] text-white overflow-hidden relative">
+          <div className="tool-card p-6 bg-slate-900 dark:bg-[#1A1D2E] text-white overflow-hidden relative">
             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none uppercase font-black text-6xl italic -rotate-12">0101010</div>
             <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Binary Representation</h3>
             <div className="space-y-4 font-mono">
@@ -160,7 +168,99 @@ export default function SubnetCalculator() {
         )}
       </div>
     </div>
-  );
+
+    <div className="mt-12 space-y-12 border-t border-slate-200 dark:border-white/5 pt-12">
+      <section className="max-w-none">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">What is an IP Subnet Calculator?</h2>
+        <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
+          An <strong className="text-network-teal">IP Subnet Calculator</strong> is an essential tool for network engineers and CCNA students to quickly determine 
+          network boundaries. By entering an IPv4 address and a subnet mask (or prefix length), you can find the 
+          <strong> network address</strong>, <strong> broadcast address</strong>, and the range of <strong> usable host addresses</strong>.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="tool-card p-6 border-slate-200 dark:border-white/5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-network-teal" />
+              Why Use a Subnetting Tool?
+            </h3>
+            <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+              <li className="flex gap-2">
+                <span className="text-network-teal font-bold">•</span>
+                <span><strong>Efficiency:</strong> Quickly calculate masks without manual binary math.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-network-teal font-bold">•</span>
+                <span><strong>Accuracy:</strong> Avoid configuration errors on routers and switches.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-network-teal font-bold">•</span>
+                <span><strong>VLSM Support:</strong> Essential for complex network designs using Variable Length Subnet Masking.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-network-teal font-bold">•</span>
+                <span><strong>Learning:</strong> Great for visualizing bitwise boundaries and mask transitions.</span>
+              </li>
+            </ul>
+          </div>
+          <div className="tool-card p-6 border-slate-200 dark:border-white/5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <Info className="w-4 h-4 text-network-blue" />
+              Understanding CIDR Notations
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              CIDR (Classless Inter-Domain Routing) uses a slash followed by a number (e.g., /24) to denote the 
+              number of network bits. This replaced the older Class A, B, and C systems, allowing for much 
+              more efficient IP address management. Our tool supports all prefixes from /0 to /32.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 bg-white/30 dark:bg-black/20 rounded-2xl p-8 border border-slate-200 dark:border-white/5">
+          <h3 className="text-xl font-bold mb-6">Frequently Asked Questions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+            <div>
+              <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">How do I use this IP calculator?</h4>
+              <p className="text-sm text-slate-600 dark:text-slate-400">Simply enter the starting IP address and select the CIDR prefix or subnet mask. The results will update instantly to show you the usable host range and broadcast address.</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">What is a /24 subnet mask?</h4>
+              <p className="text-sm text-slate-600 dark:text-slate-400">A /24 subnet mask corresponds to 255.255.255.0. It provides 256 total IP addresses, with 254 of them being usable for hosts (one for the network ID and one for the broadcast address).</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Can I calculate IPv6 subnets?</h4>
+              <p className="text-sm text-slate-600 dark:text-slate-400">This toolkit currently specializes in IPv4 calculations, which is the most common requirement for LAN and CCNA study environments. IPv6 support is coming in a future update.</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">Is this tool mobile friendly?</h4>
+              <p className="text-sm text-slate-600 dark:text-slate-400">Yes! The Network Calculator Toolkit is fully responsive and works perfectly on smartphones and tablets, making it a great companion in the data center.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-slate-200 dark:border-white/5">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 font-mono">Related Networking Tools</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="#vlsm" className="p-4 rounded-xl border border-slate-200 dark:border-white/5 hover:border-network-teal transition-colors group">
+              <span className="block text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-network-teal">VLSM Calculator</span>
+              <p className="text-xs text-slate-500">Plan complex hierarchical subnets.</p>
+            </a>
+            <a href="#cidr" className="p-4 rounded-xl border border-slate-200 dark:border-white/5 hover:border-network-teal transition-colors group">
+              <span className="block text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-network-teal">CIDR Summarizer</span>
+              <p className="text-xs text-slate-500">Aggregate routes for better efficiency.</p>
+            </a>
+            <a href="#converter" className="p-4 rounded-xl border border-slate-200 dark:border-white/5 hover:border-network-teal transition-colors group">
+              <span className="block text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-network-teal">IP Converter</span>
+              <p className="text-xs text-slate-500">Binary, Hex, and Decimal conversion.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <AdBanner slot="1139423510" />
+  </div>
+);
 }
 
 function ResultItem({ label, value, onCopy, isCopied, subValue }: {
@@ -173,7 +273,7 @@ function ResultItem({ label, value, onCopy, isCopied, subValue }: {
   return (
     <div className="p-6 group relative">
       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
-      <p className="text-2xl font-mono font-bold tracking-tight text-[#1A1D2E] dark:text-white">{value}</p>
+      <p className="text-2xl font-mono font-bold tracking-tight text-slate-900 dark:text-white">{value}</p>
       {subValue && <p className="text-xs text-slate-400 mt-1 font-mono">{subValue}</p>}
       <button
         onClick={onCopy}

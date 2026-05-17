@@ -1,0 +1,10 @@
+{
+  "short_name": "NetCalc",
+  "name": "Network Calculator Toolkit",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0D9488",
+  "background_color": "#0F172A",
+  "description": "Professional networking toolkit for subnets, VLSM, and CIDR calculations."
+}

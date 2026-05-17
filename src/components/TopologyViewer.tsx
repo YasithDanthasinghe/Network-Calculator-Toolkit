@@ -43,8 +43,41 @@ export default function TopologyViewer() {
       x: 100 + Math.random() * 200,
       y: 100 + Math.random() * 200,
     };
-    setNodes([...nodes, newNode]);
+    setNodes(prev => [...prev, newNode]);
     setSelectedNode(newNode.id);
+  };
+
+  const loadTemplate = (name: 'home' | 'office') => {
+    if (name === 'home') {
+      setNodes([
+        { id: 'h1', type: 'Cloud', name: 'ISP', x: 400, y: 50 },
+        { id: 'h2', type: 'Router', name: 'Home Router', x: 400, y: 160 },
+        { id: 'h3', type: 'PC', name: 'Desktop', x: 300, y: 280 },
+        { id: 'h4', type: 'PC', name: 'Laptop', x: 500, y: 280 },
+      ]);
+      setLinks([
+        { id: 'l1', from: 'h1', to: 'h2' },
+        { id: 'l2', from: 'h2', to: 'h3' },
+        { id: 'l3', from: 'h2', to: 'h4' },
+      ]);
+    } else {
+      setNodes([
+        { id: 'o1', type: 'Cloud', name: 'Internet', x: 400, y: 50 },
+        { id: 'o2', type: 'Firewall', name: 'ASA-FW', x: 400, y: 160 },
+        { id: 'o3', type: 'Router', name: 'Core-R1', x: 400, y: 280 },
+        { id: 'o4', type: 'Server', name: 'Web-Srv', x: 250, y: 400 },
+        { id: 'o5', type: 'Database', name: 'DB-Srv', x: 400, y: 400 },
+        { id: 'o6', type: 'PC', name: 'Admin', x: 550, y: 400 },
+      ]);
+      setLinks([
+        { id: 'ol1', from: 'o1', to: 'o2' },
+        { id: 'ol2', from: 'o2', to: 'o3' },
+        { id: 'ol3', from: 'o3', to: 'o4' },
+        { id: 'ol4', from: 'o3', to: 'o5' },
+        { id: 'ol5', from: 'o3', to: 'o6' },
+      ]);
+    }
+    setSelectedNode(null);
   };
 
   const handlePointerDown = (e: PointerEvent, id: string) => {
@@ -98,7 +131,13 @@ export default function TopologyViewer() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[700px] gap-4">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Network Topology Designer</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Map out your infrastructure visually with routers, servers, and firewall components.</p>
+      </div>
+
+      <div className="flex flex-col lg:flex-row h-[700px] gap-4">
       {/* Sidebar Toolset */}
       <div className="lg:w-64 space-y-4 flex flex-col">
         <div className="tool-card p-4 space-y-4 flex-1">
@@ -136,6 +175,18 @@ export default function TopologyViewer() {
             >
               <Trash2 className="w-4 h-4" /> Delete Item
             </button>
+          </div>
+
+          <div className="pt-4 border-t border-slate-200 dark:border-white/10 space-y-2">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Presets</h3>
+            <div className="grid grid-cols-1 gap-2">
+              <button onClick={() => loadTemplate('home')} className="btn-secondary text-[10px] py-1.5 flex items-center justify-center gap-2">
+                <Laptop className="w-3 h-3" /> Home Layout
+              </button>
+              <button onClick={() => loadTemplate('office')} className="btn-secondary text-[10px] py-1.5 flex items-center justify-center gap-2">
+                <Server className="w-3 h-3" /> Office Layout
+              </button>
+            </div>
           </div>
         </div>
 
@@ -194,7 +245,7 @@ export default function TopologyViewer() {
           {/* Grid Background */}
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-white/5" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-300 dark:text-white/5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
@@ -265,5 +316,6 @@ export default function TopologyViewer() {
         </svg>
       </div>
     </div>
-  );
+  </div>
+);
 }
